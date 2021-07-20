@@ -24,7 +24,7 @@ format:
 	$(REBAR) fmt -w
 
 test:
-	$(REBAR) do eunit, proper
+	$(REBAR) do eunit
 
 xref:
 	$(REBAR) xref
@@ -33,7 +33,6 @@ clean:
 	$(REBAR) clean
 
 distclean:
-	$(REBAR) clean -a
 	rm -rfv _build
 
 dialyze:
