@@ -1,6 +1,6 @@
 # woody_api_hay
 
-Этот проект содержит обработчик для [how_are_you](https://github.com/rbkmoney/how_are_you), который публикует унформацию о количестве открытых соединений [woody](https://github.com/rbkmoney/woody_erlang).
+Этот проект содержит обработчик для [how_are_you](https://github.com/rbkmoney/how_are_you), который публикует информацию о количестве открытых соединений [woody](https://github.com/rbkmoney/woody_erlang).
 
 ## Сборка
 
