@@ -1,0 +1,16 @@
+{application, woody_api_hay , [
+    {description, "A how_are_you handler for woody"},
+    {vsn, "1"},
+    {applications, [
+        kernel,
+        stdlib,
+        woody,
+        how_are_you
+    ]},
+    {env, []},
+    {maintainers, [
+        "Sergey Yelin <elinsn@gmail.com>"
+    ]},
+    {licenses, ["Apache 2.0"]},
+    {links, []}
+]}.
