@@ -1,7 +1,7 @@
 REBAR := $(shell which rebar3 2>/dev/null || which ./rebar3)
 
-.PHONY: all get_deps ensure_elvis compile lint check_format \
-		format test xref clean distclean dialyze plt_update shell
+.PHONY: all get_deps compile lint check_format \
+		format test xref clean distclean dialyze shell
 
 all: compile
 
@@ -11,7 +11,7 @@ get_deps:
 compile:
 	$(REBAR) compile
 
-shell: submodules
+shell:
 	$(REBAR) shell
 
 lint:
@@ -38,5 +38,3 @@ distclean:
 dialyze:
 	$(REBAR) dialyzer
 
-plt_update:
-	$(REBAR) dialyzer -u true -s false
