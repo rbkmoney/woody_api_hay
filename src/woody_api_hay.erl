@@ -96,13 +96,18 @@ gauge(Key, Value) ->
 
 -spec test() -> _.
 
--spec get_ranch_info_error_test() -> _.
-get_ranch_info_error_test() ->
-    ?_assertMatch({error, _}, get_ranch_info()).
+-spec get_ranch_info_error_test_() -> _.
+get_ranch_info_error_test_() ->
+    [
+        ?_assertMatch({error, _}, get_ranch_info()),
+        ?_assertEqual([], get_ranch_info_safe())
+    ].
 
 -spec get_ranch_info_ok_test_() -> _.
 get_ranch_info_ok_test_() ->
-    {setup, fun() -> application:start(ranch) end, fun(_) -> application:stop(ranch) end,
-        ?_assertEqual([], get_ranch_info())}.
+    {setup, fun() -> application:start(ranch) end, fun(_) -> application:stop(ranch) end, [
+        ?_assertEqual([], get_ranch_info()),
+        ?_assertEqual([], get_ranch_info_safe())
+    ]}.
 
 -endif.
