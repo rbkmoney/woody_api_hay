@@ -4,8 +4,7 @@
     {applications, [
         kernel,
         stdlib,
-        woody,
-        how_are_you
+        woody
     ]},
     {env, []},
     {maintainers, [
