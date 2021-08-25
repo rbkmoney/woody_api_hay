@@ -7,7 +7,6 @@
         genlib,
         ranch
     ]},
-    {included_applications, [how_are_you]},
     {env, []},
     {maintainers, [
         "Sergey Yelin <elinsn@gmail.com>"
