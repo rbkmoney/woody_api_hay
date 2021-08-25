@@ -63,7 +63,25 @@ create_server_metrics({Ref, Nconns}) ->
     gauge([woody, server, Ref, active_connections], Nconns).
 
 get_ranch_info() ->
-    ranch:info().
+    try
+        ranch:info()
+    catch
+        _:Reason ->
+            {error, Reason}
+    end.
+
+get_ranch_info_safe() ->
+    case erlang:whereis(ranch_server) of
+        undefined ->
+            [];
+        _ ->
+            case get_ranch_info() of
+                {error, Reason} ->
+                    error(Reason);
+                Other ->
+                    Other
+            end
+    end.
 
 get_active_connections() ->
     F = fun({Ref, Info}) ->
@@ -74,8 +92,29 @@ get_active_connections() ->
             end,
         {Ref, Nconns}
     end,
-    lists:map(F, get_ranch_info()).
+    lists:map(F, get_ranch_info_safe()).
 
 -spec gauge(metric_key(), metric_value()) -> metric().
 gauge(Key, Value) ->
     how_are_you:metric_construct(gauge, Key, Value).
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+-spec test() -> _.
+
+-spec get_ranch_info_error_test_() -> _.
+get_ranch_info_error_test_() ->
+    [
+        ?_assertMatch({error, _}, get_ranch_info()),
+        ?_assertEqual([], get_ranch_info_safe())
+    ].
+
+-spec get_ranch_info_ok_test_() -> _.
+get_ranch_info_ok_test_() ->
+    {setup, fun() -> application:start(ranch) end, fun(_) -> application:stop(ranch) end, [
+        ?_assertEqual([], get_ranch_info()),
+        ?_assertEqual([], get_ranch_info_safe())
+    ]}.
+
+-endif.
