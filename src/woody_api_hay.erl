@@ -96,8 +96,8 @@ gauge(Key, Value) ->
 
 -spec test() -> _.
 
--spec get_ranch_inf_error_test() -> _.
-get_ranch_inf_error_test() ->
+-spec get_ranch_info_error_test() -> _.
+get_ranch_info_error_test() ->
     ?_assertMatch({error, _}, get_ranch_info()).
 
 -spec get_ranch_info_ok_test_() -> _.
