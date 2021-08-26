@@ -62,10 +62,22 @@ create_server_metrics({Ref, Nconns}) when is_tuple(Ref) ->
 create_server_metrics({Ref, Nconns}) ->
     gauge([woody, server, Ref, active_connections], Nconns).
 
-get_ranch_info() ->
-    ranch:info().
-
 get_active_connections() ->
+    get_active_connections(ranch:info()).
+
+-dialyzer({no_match, get_active_connections/1}).
+
+%% ranch 2x
+get_active_connections(#{} = RanchInfo) ->
+    F = fun
+        (Ref, #{active_connections := N}) ->
+            {Ref, N};
+        (_Ref, _Info) ->
+            0
+    end,
+    [F(Ref, maps:get(Ref, RanchInfo)) || Ref <- maps:keys(RanchInfo)];
+%% ranch 1x
+get_active_connections(RanchInfo) ->
     F = fun({Ref, Info}) ->
         Nconns =
             case lists:keyfind(active_connections, 1, Info) of
@@ -74,7 +86,7 @@ get_active_connections() ->
             end,
         {Ref, Nconns}
     end,
-    lists:map(F, get_ranch_info()).
+    lists:map(F, RanchInfo).
 
 -spec gauge(metric_key(), metric_value()) -> metric().
 gauge(Key, Value) ->

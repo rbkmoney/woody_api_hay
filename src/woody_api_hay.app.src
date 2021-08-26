@@ -5,7 +5,7 @@
         kernel,
         stdlib,
         genlib,
-        ranch
+        woody
     ]},
     {env, []},
     {maintainers, [
